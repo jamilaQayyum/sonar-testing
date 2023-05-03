@@ -1,0 +1,25 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+      - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+  build:
+    commands:
+      - sonar-scanner \
+        -Dsonar.projectKey=my-project \
+        -Dsonar.sources=.
+    runtime-versions:
+      nodejs: 16
+      python: 3.9
+    commands:
+      - npm i npm@latest -g
+      - aws --version
+      - pip3 --version
+      - pip3 install --upgrade awscli
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+       - && CI=false npm run build
